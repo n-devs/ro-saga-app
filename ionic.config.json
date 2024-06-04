@@ -1,0 +1,7 @@
+{
+  "name": "ro-saga-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
