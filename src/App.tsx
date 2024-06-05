@@ -1,35 +1,23 @@
-import { Redirect, Route } from 'react-router-dom';
+
 import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
   setupIonicReact
 } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 
 /* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
+// import '@ionic/react/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
+// import '@ionic/react/css/normalize.css';
+// import '@ionic/react/css/structure.css';
+// import '@ionic/react/css/typography.css';
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+// import '@ionic/react/css/padding.css';
+// import '@ionic/react/css/float-elements.css';
+// import '@ionic/react/css/text-alignment.css';
+// import '@ionic/react/css/text-transformation.css';
+// import '@ionic/react/css/flex-utils.css';
+// import '@ionic/react/css/display.css';
 
 /**
  * Ionic Dark Mode
@@ -40,48 +28,116 @@ import '@ionic/react/css/display.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+// import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
-import './theme/variables.css';
+// import './theme/variables.css';
+import './theme/btn.css';
+import React from 'react';
+import { Grid } from '@mui/material';
+import RegisterDialog from './components/RegisterDialog';
+import { isMobile } from "mobile-device-detect";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/tab1" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon aria-hidden="true" icon={triangle} />
-            <IonLabel>Tab 1</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon aria-hidden="true" icon={ellipse} />
-            <IonLabel>Tab 2</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon aria-hidden="true" icon={square} />
-            <IonLabel>Tab 3</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [ipv4, setIPv4] = React.useState<string>("")
+  const [play, setPlay] = React.useState<boolean>(false)
+  const [register, setRegister] = React.useState<boolean>(false)
+  const refEl = React.useRef<null | any>(null)
+
+  var window: any & Window & typeof global
+  const handleClickPlay = () => {
+    setPlay(true)
+
+
+    // fetch("https://raw.githubusercontent.com/n-devs/public-ip/data/ip-address.json").then(res => res.json())
+    //   .then(data => {
+    setTimeout(() => {
+
+      let script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'game.js';
+      document.getElementsByTagName('body')[0].appendChild(script);
+
+      // }).catch(err => { throw err });
+      refEl.current.style.display = 'none'
+    }, 1000)
+  }
+
+  const handleClickRegister = () => {
+    setRegister(true)
+  }
+
+  const handleCloseRegister = () => {
+    setRegister(false)
+  }
+
+  React.useEffect(() => {
+    fetch("https://raw.githubusercontent.com/n-devs/public-ip/data/ip-address.json").then(res => res.json())
+      .then(data => {
+        setIPv4(data.ipv4)
+      })
+
+  }, [])
+
+  return (
+    <>
+
+      {play ? (<div ref={refEl} style={{
+        position: 'fixed',
+        zIndex: 1,
+        bottom: '10vh',
+        width: ' 100%',
+        display: 'flex',
+        justifyContent: 'center',
+        height: "10vh"
+      }}>
+        <span className="loader"></span>
+
+      </div>) : (<>
+        <RegisterDialog open={register} ipv4={ipv4} onClose={handleCloseRegister}></RegisterDialog>
+        <div id="box-install" style={{
+          position: 'fixed',
+          zIndex: 1,
+          bottom: '10vh',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Grid container spacing={2}>
+                <Grid item xs={6} style={{
+                  justifyContent: 'flex-end',
+                  display: 'flex',
+                }}>
+                  <button className="btn-1" style={{
+                    display: 'block',
+                    fontSize: isMobile ? "large" : 'xxx-large',
+                    fontWeight: 'bold',
+                  }} onClick={handleClickRegister}>
+                    Register
+                  </button>
+                </Grid>
+                <Grid item xs={6} >
+                  <button className="btn-1" style={{
+                    display: 'block',
+                    fontSize: isMobile ? "large" : 'xxx-large',
+                    fontWeight: 'bold',
+                  }} onClick={handleClickPlay}>
+                    Play Now!
+                  </button>
+                </Grid>
+              </Grid>
+            </Grid>
+
+          </Grid>
+        </div>
+      </>)}
+
+    </>
+  );
+};
 
 export default App;
