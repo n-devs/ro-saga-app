@@ -1,0 +1,19 @@
+version: '3' # vs mais atual
+
+services:
+  app:
+    build: ./
+    container_name: ro-saga-app
+    restart: always
+    tty: true
+    working_dir: /ro-saga-app
+    volumes:
+      - ./:/ro-saga-app
+    ports:
+      - "5173:5173"
+    networks:
+      - ro-network
+
+networks:
+  ro-network:
+    driver: bridge
