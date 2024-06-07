@@ -13,8 +13,6 @@ function run() {
                 "width": "100%",
                 "height": "100%",
                 "socketProxy": `ws://${data.ipv4}:5999/`,
-                // "socketProxy": `wss://127.0.0.1:5999`,
-                // "socketProxy": `wss://connect.robrowser.com/`,
                 "servers": [
                     {
                         "display": "เซิฟเวอร์ต่างโลก",
@@ -23,17 +21,15 @@ function run() {
                         "port": 6900,
                         "version": 55,
                         "langtype": 5,
-                        "packetver": 20130618,
+                        "packetver": 20141022,
                         "forceUseAddress": true,
                         "socketProxy": `ws://${data.ipv4}:5999/`,
-                        // "socketProxy": `wss://127.0.0.1:5999`,
-                        // "socketProxy": `wss://connect.robrowser.com/`,
 
                         "packetKeys": true
                     }
                 ],
                 "development": false,
-                "packetver": 20130618,
+                "packetver": 20141022,
                 "skipIntro": true,
                 "saveFiles": true
             };

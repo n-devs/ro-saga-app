@@ -118,7 +118,7 @@ export default function RegisterDialog({ open, ipv4, onClose }: { open: boolean,
             body: raw,
         };
 
-        fetch(`https://${ipv4}:7373/api/register`, requestOptions)
+        fetch(`http://${ipv4}:7373/api/register`, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 if (result) {
